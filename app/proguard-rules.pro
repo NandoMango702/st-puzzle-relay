@@ -1,16 +1,16 @@
 -dontobfuscate
 -keepattributes SourceFile,LineNumberTable
--keep @name.boyle.chris.sgtpuzzles.backend.UsedByJNI class * {*;}
+-keep @io.github.nandomango702.stpuzzlerelay.backend.UsedByJNI class * {*;}
 -keepclassmembers class * {
-    @name.boyle.chris.sgtpuzzles.backend.UsedByJNI <methods>;
+    @io.github.nandomango702.stpuzzlerelay.backend.UsedByJNI <methods>;
 }
 -keepclasseswithmembers class * {
-    @name.boyle.chris.sgtpuzzles.backend.UsedByJNI <methods>;
+    @io.github.nandomango702.stpuzzlerelay.backend.UsedByJNI <methods>;
 }
 -keepclasseswithmembers class * {
-    @name.boyle.chris.sgtpuzzles.backend.UsedByJNI <fields>;
+    @io.github.nandomango702.stpuzzlerelay.backend.UsedByJNI <fields>;
 }
 -keepclasseswithmembers class * {
-    @name.boyle.chris.sgtpuzzles.backend.UsedByJNI <init>(...);
+    @io.github.nandomango702.stpuzzlerelay.backend.UsedByJNI <init>(...);
 }
 -printusage /tmp/usage.txt

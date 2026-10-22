@@ -1,75 +1,41 @@
-Android port of Simon Tatham's Puzzles
-======================================
+# ST Puzzle Relay
 
-This is [Simon Tatham's Portable Puzzle Collection](https://www.chiark.greenend.org.uk/~sgtatham/puzzles/),
+**Simon Tatham's Puzzle Relay — with playlists, dailies, timers, and a random picker.**
+
+This is a fork of [chrisboyle/sgtpuzzles](https://github.com/chrisboyle/sgtpuzzles),
+which is [Simon Tatham's Portable Puzzle Collection](https://www.chiark.greenend.org.uk/~sgtatham/puzzles/)
 ported to Android.
 
-The easiest way to install it is [from Google Play](https://play.google.com/store/apps/details?id=name.boyle.chris.sgtpuzzles).
+## Credits and license
 
-If you'd like to get involved, read on:
+All credit for the puzzles themselves goes to Simon Tatham, Chris Boyle, and the
+contributors listed in the LICENCE file. This fork is distributed under the same
+MIT-style license — see the LICENCE file; copyright notices are preserved.
 
-Project goals
--------------
+## What this fork adds
 
-* Run in Android environments where puzzles make sense: phones, tablets,
-  Chromebooks, maybe TVs, not watches or cars.
-* Provide the same puzzle collection that the upstream project provides for
-  other platforms.
-* Provide appropriate controls for Android environments, e.g. on-screen buttons
-  and the use of long-press instead of right-click.
-* Provide appropriate display adjustments for mobile use-cases, e.g. night mode,
-  and minor changes to the recommended sizes of puzzles.
-* Run completely offline, including the documentation, and with minimum required
-  permissions.
-* Follow Android conventions: implicit saving of games in progress, standard
-  settings screen with immediate apply, etc.
-* Make it easy to exchange saved puzzle states with other users and other
-  platforms.
+The upstream port deliberately stays close to upstream's design; this fork adds
+the things it chose not to:
 
-Potential/experimental goals, that could exist on Android before potentially
-being included upstream later:
+* A solve timer that starts on your first move and pauses when you leave the
+  puzzle, so time away from the game doesn't count.
+* Named, ordered playlists with Next-on-solve and shuffle.
+* A date-seeded daily puzzle that rotates through the enabled puzzles — everyone
+  gets the same puzzle each day, with per-day completion tracking.
+* A random picker that draws from all puzzles or just your favorites
+  (long-press a puzzle on the main screen to star it).
 
-* Accessibility improvements relative to upstream.
-* Translate the Puzzles into more languages: **first fix [issue #1](https://github.com/chrisboyle/sgtpuzzles/issues/1) properly** to
-  allow translating strings that come from C, which is most of them. I don't yet
-  know how to fix that, and I don't recommend starting work on any translations
-  until it's fixed.
-* Make it easier to have multiple states of the same game in progress, without
-  having to manage files.
+## Current state
 
-Non-goals for this project
---------------------------
+v1 ships a curated subset of ten puzzles: Loopy, Mines, Dominosa, Bridges,
+Mosaic, Net, Palisade, Pattern, Pearl, and Tents. The full ~40-puzzle set will
+return in a later release.
 
-I do not want to make certain kinds of changes that I think would make the Android
-port too different from upstream:
+## About this project
 
-* New games that don't exist upstream.
-* Changes to game rules (implemented or documented) versus upstream.
-* Timers, scoring, or high-score tables that differ from upstream.
-* Hints or other progress feedback that differs from upstream.
-
-Any suggestions in this category should be sent upstream to Simon, as per the
-[Feedback section of his page](https://www.chiark.greenend.org.uk/~sgtatham/puzzles/#:~:text=Feedback),
-and if any such improvements are accepted upstream then I'll merge them into the
-Android port if at all possible.
-
-You're welcome to discuss changes of this kind on this project's issue tracker,
-applying the tag `upstream` to issues to reflect that they won't be implemented
-here directly.
-
-How to help without writing any code
-------------------------------------
-
-Good bug reports and well-thought-out feature suggestions (bearing in mind the above)
-are always helpful; here's the
-[issue tracker](https://github.com/chrisboyle/sgtpuzzles/issues).
-It's always worth a quick search to see if your bug/idea has already been reported.
-
-Simon has an excellent page on [how to write a good bug report](https://www.chiark.greenend.org.uk/~sgtatham/bugs.html).
-
-Need to add/change some graphics? The sources live in
-`app/src/main/graphics-sources` and were converted to icons with
-[Android Asset Studio](https://romannurik.github.io/AndroidAssetStudio/)
+This is my first-ever project. I'm learning Android development by building it,
+in collaboration with an AI coding assistant — yes, it's vibe coded, and I'm not
+going to pretend otherwise. Feedback, bug reports, and pull requests are welcome.
 
 Coders should read on...
 
@@ -96,11 +62,10 @@ I probably missed a few things here. File a bug when you find them. :-)
 Getting/configuring the source
 ------------------------------
 
-The source lives at https://github.com/chrisboyle/sgtpuzzles - you can
-either clone/download it from there, or make your own fork on github
-(the Fork button near the top right). A fork means you can easily send
-me a "pull request" of your change, and I can review and integrate it,
-all within github.
+This is a fork of https://github.com/chrisboyle/sgtpuzzles - you can clone/download
+it from there if you want the unmodified upstream port, or clone this repo for
+the fork. A fork means you can easily send me a "pull request" of your change,
+and I can review and integrate it, all within github.
 
 You'll also find a branch called `upstream`, which is Simon's code whenever
 I last synced. Handy for diffs, to see what I broke on Android. :-)
@@ -138,7 +103,7 @@ If your change is relevant to other platforms, you should definitely ping Simon
 about it as well as me, but test on at least one other platform first in a
 separate checkout (see above).
 
-Happy hacking! :-)
+Happy hacking!
 
 --
-Chris Boyle
+ST Puzzle Relay

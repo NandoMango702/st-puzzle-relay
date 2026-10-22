@@ -2,7 +2,7 @@
 
 use strict;
 
-my @sources = <jni/*.c AndroidManifest.xml res/menu/*.xml res/layout/*.xml res/xml/preferences.xml res/values/arrays.xml java/name/boyle/chris/sgtpuzzles/*.java>;
+my @sources = <jni/*.c AndroidManifest.xml res/menu/*.xml res/layout/*.xml res/xml/preferences.xml res/values/arrays.xml kotlin/io/github/nandomango702/stpuzzlerelay/*.kt>;
 my @stringsfiles = <res/values*/strings.xml>;
 my %srcstrings;
 my %resstrings;

@@ -42,10 +42,10 @@ java {
 }
 
 android {
-    namespace = "name.boyle.chris.sgtpuzzles"
+    namespace = "io.github.nandomango702.stpuzzlerelay"
     compileSdk = 36
     defaultConfig {
-        applicationId = "name.boyle.chris.sgtpuzzles"
+        applicationId = "io.github.nandomango702.stpuzzlerelay"
         minSdk = 21
         targetSdk = 36
         versionCode = 149

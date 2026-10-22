@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedAttribute"
+    tools:context=".GameChooser">
+<!-- Shown above the bottom bar when the dice icon is tapped -->
+	<item android:title="@string/random_from_all" android:id="@+id/random_all"/>
+	<item android:title="@string/random_from_favorites" android:id="@+id/random_favorites"/>
+</menu>

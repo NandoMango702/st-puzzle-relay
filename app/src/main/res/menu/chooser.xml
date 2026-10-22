@@ -3,11 +3,11 @@
     xmlns:supportLib="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedAttribute"
     tools:context=".GameChooser">
-<!-- showAsAction will be reset by rethinkActionBarCapacity() -->
+<!-- showAsAction is set to always by GameChooser.onCreateOptionsMenu() -->
 	<item android:title="@string/Settings" android:id="@+id/settings" android:icon="@drawable/ic_action_settings"/>
+	<item android:title="@string/playlists" android:id="@+id/playlists" android:icon="@drawable/ic_action_view_as_list"/>
+	<item android:title="@string/daily" android:id="@+id/daily" android:icon="@drawable/ic_action_calendar"/>
+	<item android:title="@string/random_picker" android:id="@+id/random" android:icon="@drawable/ic_action_new"/>
 	<item android:title="@string/Load_" android:id="@+id/load" android:alphabeticShortcut="y" android:icon="@drawable/ic_action_load" supportLib:showAsAction="ifRoom|withText"/>
-	<item android:title="@string/Help" android:id="@+id/help_menu" android:icon="@drawable/ic_action_help" supportLib:showAsAction="ifRoom|withText"><menu>
-        <item android:title="@string/Help" android:id="@+id/contents" android:icon="@drawable/ic_action_help"/>
-        <item android:title="@string/Send_feedback" android:id="@+id/feedback" android:icon="@drawable/ic_feedback"/>
-	</menu></item>
+	<item android:title="@string/Help" android:id="@+id/help_menu" android:icon="@drawable/ic_action_help" supportLib:showAsAction="ifRoom|withText"/>
 </menu>

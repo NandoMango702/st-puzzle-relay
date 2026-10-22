@@ -93,7 +93,7 @@
 			app:useSimpleSummaryProvider="true" />
 
 		<PreferenceScreen
-			android:fragment="name.boyle.chris.sgtpuzzles.PrefsActivity$PrefsDisplayAndInputFragment"
+			android:fragment="io.github.nandomango702.stpuzzlerelay.PrefsActivity$PrefsDisplayAndInputFragment"
 			android:key="advancedSettings"
 			android:persistent="false"
 			android:summary="@string/advancedSettingsSummary"

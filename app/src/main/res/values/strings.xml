@@ -23,19 +23,18 @@ chris@boyle.name and I'll be happy to include it in future versions.
 
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- About box -->
-    <string name="about_content">"Simon Tatham’s Portable Puzzle Collection
+    <string name="about_content">"ST Puzzle Relay
+Based on Simon Tatham’s Portable Puzzle Collection
 Version %s"</string>
     <string name="copy_version_number">Copy version number to clipboard</string>
     <!-- Things used by the Android front-end only -->
-    <string name="app_name">Puzzles</string>
-    <string name="missing_game_generator">Puzzles is missing a required file! Try reinstalling from Google Play</string>
-    <string name="website_url" translatable="false">https://chris.boyle.name/projects/android-puzzles/</string>
+    <string name="app_name">ST Puzzle Relay</string>
+    <string name="missing_game_generator">ST Puzzle Relay is missing a required file! Try reinstalling the app</string>
+    <string name="website_url" translatable="false">https://github.com/NandoMango702/st-puzzle-relay</string>
     <string name="feedback_dialog" tools:ignore="TypographyQuotes"><![CDATA[
-<p>There are two ways to send feedback:</p>
-<p><a href="https://play.google.com/store/apps/details?id={0}">Leave a review at Google Play</a></p>
 <p><a href="{1}">Report a bug or feature request at GitHub</a></p>
 <p>GitHub allows attachments like screenshots and saved games, but requires creating an account.</p>
-<p>Any data you give to Google or GitHub is subject to their respective terms and privacy policies.</p>
+<p>Any data you give to GitHub is subject to their terms and privacy policy.</p>
 ]]></string>
     <string name="feedback_version">Puzzles version number: {0}</string>
     <string name="bug_dialog">Oops! You’ve hit a bug: “{0}”. Would you like to report this at the GitHub issue tracker so I can investigate? This is subject to GitHub’s terms and privacy policy.</string>
@@ -99,6 +98,7 @@ Version %s"</string>
     <string name="Redo">Redo</string>
     <string name="Settings">Settings</string>
     <string name="Show_solution">Show solution</string>
+    <string name="show_result">Show result</string>
     <!--  Settings -->
     <string name="gameChooser">Game chooser</string>
     <string name="chooserStyle">Game chooser style</string>
@@ -117,8 +117,8 @@ Version %s"</string>
     <string name="keyboardSettings">Keyboard</string>
     <string name="buttonPressesSettings">Taps / button presses</string>
     <string name="showArrowKeys">Show arrow keys</string>
-    <string name="fullscreen">Full screen</string>
-    <string name="fullscreenSummary">Hide notifications</string>
+    <string name="fullscreen">Fullscreen during puzzles</string>
+    <string name="fullscreenSummary">Hide the status and navigation bars while playing; swipe to bring them back</string>
     <string name="stayAwake">Stay awake</string>
     <string name="stayAwakeSummary">Keep screen on while in the foreground</string>
     <string name="autoOrient">Match game orientation to screen</string>
@@ -623,4 +623,41 @@ Version %s"</string>
     <string name="Expected_after_number_in_game_description">Expected ‘-’ after number in game description</string>
     <string name="Expected_comma_after_number_in_game_description">Expected ‘,’ after number in game description</string>
     <string name="Internal_error_aux_info_badly_formatted">Internal error: aux_info badly formatted</string>
+    <!-- Playlists -->
+    <string name="playlists">Playlists</string>
+
+    <!-- Daily puzzle -->
+    <string name="daily">Daily</string>
+    <string name="daily_complete_title">Daily puzzle · %1$s</string>
+    <string name="daily_complete_message">Already solved today in %1$s.</string>
+
+    <!-- Random picker -->
+    <string name="random_picker">Random</string>
+    <string name="random_from_all">From all</string>
+    <string name="random_from_favorites">From favorites</string>
+    <string name="random_no_favorites">Star some puzzles first — long-press a puzzle to star it.</string>
+
+    <string name="new_playlist">New playlist</string>
+    <string name="edit_playlist_title">Edit playlist</string>
+    <string name="no_playlists">No playlists yet — tap “New playlist” to make one.</string>
+    <string name="playlist_name_hint">Playlist name</string>
+    <string name="playlist_tap_to_select">Tap puzzles to add them in order. Tap again to remove.</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="play">Play</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="next">Next</string>
+    <string name="play_again">Play again</string>
+    <string name="done">Done</string>
+    <string name="playlist_complete">Playlist complete</string>
+    <string name="playlist_complete_message">You finished “%1$s”!</string>
+    <string name="playlist_final_time">Last puzzle: %1$s</string>
+    <string name="delete_playlist_confirm">Delete the playlist “%1$s”?</string>
+    <string name="playlist_name_required">Give the playlist a name first.</string>
+    <string name="playlist_pick_at_least_one">Pick at least one puzzle.</string>
+    <plurals name="playlist_puzzle_count">
+        <item quantity="one">%d puzzle</item>
+        <item quantity="other">%d puzzles</item>
+    </plurals>
 </resources>

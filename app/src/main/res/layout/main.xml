@@ -23,7 +23,7 @@
                     android:id="@+id/mainLayout"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <name.boyle.chris.sgtpuzzles.buttons.ButtonsView
+        <io.github.nandomango702.stpuzzlerelay.buttons.ButtonsView
             android:id="@+id/buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,16 +44,30 @@
             android:importantForAccessibility="no"
             android:text="" />
 
-        <name.boyle.chris.sgtpuzzles.GameView
+        <TextView
+            android:id="@+id/timer_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/status_bar"
+            android:gravity="end"
+            android:paddingBottom="2dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:background="@color/game_background"
+            android:textColor="@color/status_bar_text"
+            android:importantForAccessibility="no"
+            android:text="00:00" />
+
+        <io.github.nandomango702.stpuzzlerelay.GameView
             android:id="@+id/game_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/status_bar"
+            android:layout_above="@id/timer_view"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:background="@color/game_background">
             <requestFocus/>
-        </name.boyle.chris.sgtpuzzles.GameView>
+        </io.github.nandomango702.stpuzzlerelay.GameView>
 
     </RelativeLayout>
 

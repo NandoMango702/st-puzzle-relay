@@ -1,1 +1,1 @@
-40 classic single-player logic puzzles, playable offline, generated on demand
+Simon Tatham's classic logic puzzles with playlists, a daily puzzle, solve timers, and a random picker from your favorites

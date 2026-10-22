@@ -4,8 +4,14 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:fitsSystemWindows="true"
+	android:fitsSystemWindows="false"
 	tools:context=".GameChooser">
+	<!-- NB: the root deliberately does NOT fitSystemWindows. The bottom bar's
+	     inset listener in GameChooser is the single source of truth for the
+	     navigation-bar inset (padding + grown height, per the edge-to-edge
+	     pattern); letting the root consume insets too applied the inset twice
+	     and left a nav-bar-sized dead gap below the icons. The top AppBarLayout
+	     keeps its own fitsSystemWindows for the status bar. -->
 
 	<com.google.android.material.appbar.AppBarLayout
 		android:layout_width="match_parent"
@@ -57,4 +63,16 @@
 				supportLib:layout_row="1"/>
 		</androidx.gridlayout.widget.GridLayout>
 	</ScrollView>
+
+	<!-- Bottom action bar: the chooser's action buttons live here for thumb
+	     reachability. Its bottom padding is set from the system-bar insets in
+	     GameChooser so it always sits above the Android navigation bar. -->
+	<com.google.android.material.appbar.MaterialToolbar
+		android:id="@+id/bottomBar"
+		android:layout_width="match_parent"
+		android:layout_height="?attr/actionBarSize"
+		android:layout_gravity="bottom"
+		android:background="@color/chooser_section_background"
+		android:elevation="8dp" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
