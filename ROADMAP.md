@@ -40,8 +40,9 @@ that's when this becomes a 1.0.
 
 ## Not planned
 - Notifications (no daily reminders — the app stays quiet)
-- Google Play signing (GitHub releases + unknown-sources approval is
-  fine for now)
+- Google Play Store submission (personal self-signing is set up, so
+  builds carry a stable identity; GitHub releases + unknown-sources
+  approval is fine for now)
 
 ## Update log
 - **v0.2.0** — full 40-puzzle restore; "Show solution" completion fix;
