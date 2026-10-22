@@ -40,7 +40,9 @@ class PlaylistEditorActivity : AppCompatActivity() {
         // system navigation bar / keyboard, following the pattern in GameChooser.
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, windowInsets ->
             val insets = windowInsets.getInsets(systemBars() or displayCutout() or ime())
-            v.updatePadding(bottom = insets.bottom)
+            // Top inset too: without it the toolbar slides under the status bar
+            // and the title clips through it.
+            v.updatePadding(top = insets.top, bottom = insets.bottom)
             WindowInsetsCompat.CONSUMED
         }
         supportActionBar?.apply {

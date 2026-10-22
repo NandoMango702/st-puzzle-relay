@@ -10,13 +10,13 @@ ported to Android.
 
 | Puzzle list | Help submenu (opens upward) |
 |---|---|
-| ![Puzzle list](fastlane/metadata/android/en-US/images/phoneScreenshots/1-puzzle-list.jpg) | ![Help submenu](fastlane/metadata/android/en-US/images/phoneScreenshots/2-help-submenu.jpg) |
+| ![Puzzle list](fastlane/metadata/android/en-US/images/phoneScreenshots/1-puzzle-list-v2.jpg) | ![Help submenu](fastlane/metadata/android/en-US/images/phoneScreenshots/2-help-submenu-v2.jpg) |
 | Random picker | Playlists |
 |---|---|
-| ![Random picker](fastlane/metadata/android/en-US/images/phoneScreenshots/3-random-picker.jpg) | ![Playlists](fastlane/metadata/android/en-US/images/phoneScreenshots/4-playlists.jpg) |
+| ![Random picker](fastlane/metadata/android/en-US/images/phoneScreenshots/3-random-picker-v2.jpg) | ![Playlists](fastlane/metadata/android/en-US/images/phoneScreenshots/4-playlists-v2.jpg) |
 | Edit playlist | |
 |---|---|
-| ![Edit playlist](fastlane/metadata/android/en-US/images/phoneScreenshots/5-edit-playlist.jpg) | |
+| ![Edit playlist](fastlane/metadata/android/en-US/images/phoneScreenshots/5-edit-playlist-v2.jpg) | |
 
 ## Credits and license
 
