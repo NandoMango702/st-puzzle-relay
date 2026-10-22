@@ -37,11 +37,17 @@ the things it chose not to:
 * A random picker that draws from all puzzles or just your favorites
   (long-press a puzzle on the main screen to star it).
 
-## Current state
+## Current release — v0.2.0
 
-v1 ships a curated subset of ten puzzles: Loopy, Mines, Dominosa, Bridges,
-Mosaic, Net, Palisade, Pattern, Pearl, and Tents. The full ~40-puzzle set will
-return in a later release.
+- All 40 upstream puzzles, with their original settings
+- Solve timer — starts on your first move, pauses when you leave
+- Named playlists with next-on-solve and shuffle
+- Date-seeded daily puzzle, the same for everyone
+- Random picker — all puzzles or just your starred favorites
+- "Show solution" completes the puzzle properly: solved menu, timer
+  stop, playlist advance
+
+See [ROADMAP.md](ROADMAP.md) for what's next.
 
 ## About this project
 
