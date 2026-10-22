@@ -64,6 +64,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.IntOffset
@@ -84,16 +85,36 @@ import io.github.nandomango702.stpuzzlerelay.GameView.Companion.CURSOR_RIGHT
 import io.github.nandomango702.stpuzzlerelay.GameView.Companion.CURSOR_UP
 import io.github.nandomango702.stpuzzlerelay.GameView.Companion.MOD_NUM_KEYPAD
 import io.github.nandomango702.stpuzzlerelay.R
+import io.github.nandomango702.stpuzzlerelay.backend.BLACKBOX
 import io.github.nandomango702.stpuzzlerelay.backend.BRIDGES
 import io.github.nandomango702.stpuzzlerelay.backend.BackendName
+import io.github.nandomango702.stpuzzlerelay.backend.FILLING
+import io.github.nandomango702.stpuzzlerelay.backend.GALAXIES
+import io.github.nandomango702.stpuzzlerelay.backend.GUESS
+import io.github.nandomango702.stpuzzlerelay.backend.INERTIA
+import io.github.nandomango702.stpuzzlerelay.backend.KEEN
+import io.github.nandomango702.stpuzzlerelay.backend.LIGHTUP
 import io.github.nandomango702.stpuzzlerelay.backend.LOOPY
 import io.github.nandomango702.stpuzzlerelay.backend.MINES
 import io.github.nandomango702.stpuzzlerelay.backend.MOSAIC
 import io.github.nandomango702.stpuzzlerelay.backend.NET
+import io.github.nandomango702.stpuzzlerelay.backend.NETSLIDE
 import io.github.nandomango702.stpuzzlerelay.backend.PALISADE
 import io.github.nandomango702.stpuzzlerelay.backend.PATTERN
 import io.github.nandomango702.stpuzzlerelay.backend.PEARL
+import io.github.nandomango702.stpuzzlerelay.backend.RANGE
+import io.github.nandomango702.stpuzzlerelay.backend.RECT
+import io.github.nandomango702.stpuzzlerelay.backend.SAMEGAME
+import io.github.nandomango702.stpuzzlerelay.backend.SINGLES
+import io.github.nandomango702.stpuzzlerelay.backend.SIXTEEN
+import io.github.nandomango702.stpuzzlerelay.backend.SOLO
 import io.github.nandomango702.stpuzzlerelay.backend.TENTS
+import io.github.nandomango702.stpuzzlerelay.backend.TOWERS
+import io.github.nandomango702.stpuzzlerelay.backend.TWIDDLE
+import io.github.nandomango702.stpuzzlerelay.backend.UNDEAD
+import io.github.nandomango702.stpuzzlerelay.backend.UNEQUAL
+import io.github.nandomango702.stpuzzlerelay.backend.UNRULY
+import io.github.nandomango702.stpuzzlerelay.backend.UNTANGLE
 import io.github.nandomango702.stpuzzlerelay.backend.UsedByJNI
 import io.github.nandomango702.stpuzzlerelay.buttons.ArrowMode.ARROWS_DIAGONALS
 import io.github.nandomango702.stpuzzlerelay.buttons.ArrowMode.ARROWS_LEFT_CLICK
@@ -507,7 +528,7 @@ private fun Arrows(
                 IconKeyButton(
                     arrow, mouseIcon(backend, false), "Enter", onKey,
                     IntOffset(0, 0),
-                    repeatable = false, borders = borders
+                    repeatable = backend.value in setOf(INERTIA, NETSLIDE, SAMEGAME, SIXTEEN, TWIDDLE), borders = borders
                 )
             }
             ' '.code -> IconKeyButton(
@@ -515,7 +536,7 @@ private fun Arrows(
                 "Space",
                 onKey,
                 secondaryOffset,
-                repeatable = false, borders = borders
+                repeatable = backend.value in setOf(NETSLIDE, SIXTEEN, TWIDDLE), borders = borders
             )
             CURSOR_UP -> IconKeyButton(
                 arrow, R.drawable.sym_key_north, "Up", onKey,
@@ -563,24 +584,46 @@ private fun Arrows(
 }
 
 private val sharedMouseIcons = mapOf(
+    BLACKBOX to Pair(null, R.drawable.square_empty),
     BRIDGES to Pair(R.drawable.line, null),
+    FILLING to Pair(R.drawable.square_filled, null),
+    GALAXIES to Pair(R.drawable.line, null),
+    GUESS to Pair(null, R.drawable.lock),
+    INERTIA to Pair(R.drawable.ic_action_solve, null),
+    KEEN to Pair(R.drawable.square_corner, null),
+    LIGHTUP to Pair(R.drawable.square_circle, R.drawable.square_dot),
     LOOPY to Pair(R.drawable.line, R.drawable.no_line),
     MINES to Pair(R.drawable.square_empty, null),
     MOSAIC to Pair(R.drawable.square_empty, R.drawable.square_filled),
     PALISADE to Pair(R.drawable.line, R.drawable.no_line),
     PATTERN to Pair(R.drawable.square_empty, R.drawable.square_filled),
     PEARL to Pair(R.drawable.line, R.drawable.no_line),
+    RANGE to Pair(R.drawable.square_filled, R.drawable.square_dot),
+    RECT to Pair(R.drawable.square_empty, R.drawable.no_line),
+    SAMEGAME to Pair(R.drawable.square_dot, R.drawable.square_empty),
+    SINGLES to Pair(R.drawable.square_filled, R.drawable.square_circle),
+    SOLO to Pair(R.drawable.square_corner, null),
     TENTS to Pair(null, R.drawable.square_filled),
+    TOWERS to Pair(R.drawable.square_corner, null),
+    TWIDDLE to Pair(R.drawable.rotate_left_90, R.drawable.rotate_right_90),
+    UNDEAD to Pair(R.drawable.square_corner, null),
+    UNEQUAL to Pair(R.drawable.square_corner, null),
+    UNRULY to Pair(R.drawable.square_empty, R.drawable.square_filled),
 )
 
 private val sharedCharIcons = mapOf(
     BRIDGES to mapOf('l' to R.drawable.lock),
+    FILLING to mapOf('0' to R.drawable.square_empty),
+    KEEN to mapOf('m' to R.drawable.square_corner_123),
     NET to mapOf(
         'a' to R.drawable.rotate_left_90,
         's' to R.drawable.lock,
         'd' to R.drawable.rotate_right_90,
         'f' to R.drawable.rotate_left_180
     ),
+    SOLO to mapOf('m' to R.drawable.square_corner_123),
+    TOWERS to mapOf('m' to R.drawable.square_corner_123),
+    UNEQUAL to mapOf('m' to R.drawable.square_corner_123),
 )
 
 @Composable
@@ -613,8 +656,9 @@ private fun CharacterButton(
         )
     } else {
         // Not proud of this, but: I'm using uppercase letters to mean it's a command as
-        // opposed to data entry (Mark all squares versus enter 'm').
-        val label = c.toString()
+        // opposed to data entry (Mark all squares versus enter 'm'). But I still want the
+        // keys for data entry to be uppercase in unequal because that matches the board.
+        val label = (if (backend.value == UNEQUAL) c.uppercaseChar() else c).toString()
         TextKeyButton(
             c.code, contentDescription = c.toString(),
             onKey, offset, label = label, borders = borders)
@@ -777,3 +821,36 @@ private fun ResIcon(@DrawableRes icon: Int, enabled: State<Boolean>) {
     )
 }
 
+@Preview(widthDp = 500, heightDp = 96)
+@Composable
+fun Solo() {
+    Buttons(
+        remember { mutableStateOf("123456789\bMUR") },
+        remember { mutableStateOf(SOLO) },
+        remember { mutableStateOf(ARROWS_LEFT_CLICK) },
+        swapLR = remember { mutableStateOf(false) },
+        undoEnabled = remember { mutableStateOf(true) },
+        redoEnabled = remember { mutableStateOf(false) },
+        isLandscape = false,
+        borders = remember { mutableStateOf(false) },
+        onKey = remember { mutableStateOf({ _, _ -> }) },
+        onSwapLR = remember { mutableStateOf({}) },
+    )
+}
+
+@Preview(widthDp = 500, heightDp = 96)
+@Composable
+fun SoloWithBorders() {
+    Buttons(
+        remember { mutableStateOf("123456789\bMUR") },
+        remember { mutableStateOf(SOLO) },
+        remember { mutableStateOf(ARROWS_LEFT_CLICK) },
+        swapLR = remember { mutableStateOf(false) },
+        undoEnabled = remember { mutableStateOf(true) },
+        redoEnabled = remember { mutableStateOf(false) },
+        isLandscape = false,
+        borders = remember { mutableStateOf(true) },
+        onKey = remember { mutableStateOf({ _, _ -> }) },
+        onSwapLR = remember { mutableStateOf({}) },
+    )
+}

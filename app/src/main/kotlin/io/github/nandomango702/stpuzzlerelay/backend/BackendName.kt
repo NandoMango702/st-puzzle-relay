@@ -39,7 +39,7 @@ sealed class BackendName(
      * Note that if a hardware D-pad or trackball is present, these are ignored.
      */
     val isArrowsVisibleByDefault by lazy {
-        this in setOf(MINES, PATTERN)
+        this in setOf(BLACKBOX, FLOOD, INERTIA, MINES, PATTERN, SLANT, TRACKS)
     }
 
     /**
@@ -47,8 +47,7 @@ sealed class BackendName(
      * a preference that hides the "M" button that inserts all pencil marks.
      */
     val isLatin by lazy {
-        // None of the currently enabled puzzles are Latin squares.
-        false
+        this in setOf(KEEN, SOLO, TOWERS, UNDEAD, UNEQUAL)
     }
 
     /** How to handle drag and revert for each game. */
@@ -58,19 +57,21 @@ sealed class BackendName(
             // to do the same and don't try to revert anything: if the user tries to swipe in the
             // direction they want to move, it's better to have a move happen towards where they
             // started, so they learn, than to have nothing happen.
-            MOSAIC, NET -> UNMODIFIED
+            CUBE, FIFTEEN, FILLING, MOSAIC, NET, TWIDDLE -> UNMODIFIED
 
             // For games where a drag can be canceled by going off-screen, do that.
-            MINES, PATTERN, TENTS -> REVERT_OFF_SCREEN
+            GALAXIES, MAP, MINES, PATTERN, PEGS, RECT, TENTS, TRACKS, UNTANGLE -> REVERT_OFF_SCREEN
 
             // For games where dragging something off the board would be harmful, revert by
             // dragging back to the start of the drag instead.
-            BRIDGES, PEARL -> REVERT_TO_START
+            BRIDGES, GUESS, PEARL, SIGNPOST -> REVERT_TO_START
 
             // For many games with a cursor and no drag facilities, just ignore drags completely.
             // The reason we don't just enable one-finger pan in these games is it would be an
             // inconsistent UI since all the other games can't.
-            DOMINOSA, LOOPY, PALISADE -> PREVENT
+            BLACKBOX, DOMINOSA, FLIP, FLOOD, INERTIA, KEEN, LIGHTUP, LOOPY, MAGNETS, NETSLIDE,
+            PALISADE, RANGE, SAMEGAME, SINGLES, SIXTEEN, SLANT, SOLO, TOWERS, UNDEAD, UNEQUAL,
+            UNRULY -> PREVENT
         }
     }
 
@@ -131,6 +132,9 @@ sealed class BackendName(
 
         data class NativeSwapPref(val kw: String, val offVal: String, val onVal: String)
 
-        private val SWAP_L_R_NATIVE_PREFS = mapOf<BackendName, NativeSwapPref>()
+        private val SWAP_L_R_NATIVE_PREFS = mapOf(
+            RANGE to NativeSwapPref("left-mouse-button", "fill", "dot"),
+            SLANT to NativeSwapPref("left-button", "\\", "/"),
+        )
     }
 }

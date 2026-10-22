@@ -11,7 +11,11 @@ import io.github.nandomango702.stpuzzlerelay.R
 import io.github.nandomango702.stpuzzlerelay.Utils.listFromSeparated
 import io.github.nandomango702.stpuzzlerelay.backend.BRIDGES
 import io.github.nandomango702.stpuzzlerelay.backend.BackendName
+import io.github.nandomango702.stpuzzlerelay.backend.GUESS
 import io.github.nandomango702.stpuzzlerelay.backend.GameEngine
+import io.github.nandomango702.stpuzzlerelay.backend.MAP
+import io.github.nandomango702.stpuzzlerelay.backend.SIGNPOST
+import io.github.nandomango702.stpuzzlerelay.backend.SINGLES
 import io.github.nandomango702.stpuzzlerelay.config.PrefsConstants.CATEGORY_THIS_GAME
 import io.github.nandomango702.stpuzzlerelay.config.PrefsConstants.CATEGORY_THIS_GAME_DISPLAY_AND_INPUT
 
@@ -115,6 +119,11 @@ class ConfigPreferencesBuilder(
 
         private val NOTES = mapOf(
             BRIDGES to "show-hints" to R.string.enableButtonNote,
+            GUESS to "show-labels" to R.string.enableButtonNote,
+            MAP to "show-labels" to R.string.enableButtonsNote,
+            MAP to "flash-type" to R.string.flashTypeNote,
+            SIGNPOST to "flash-type" to R.string.flashTypeNote,
+            SINGLES to "show-black-nums" to R.string.enableTapOutsideNote,
         )
 
     }

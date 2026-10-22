@@ -81,10 +81,18 @@ import io.github.nandomango702.stpuzzlerelay.backend.GameEngineImpl.Companion.fr
 import io.github.nandomango702.stpuzzlerelay.backend.GameEngineImpl.Companion.getDefaultParams
 import io.github.nandomango702.stpuzzlerelay.backend.GameEngineImpl.Companion.getPrefs
 import io.github.nandomango702.stpuzzlerelay.backend.GameEngineImpl.Companion.identifyBackend
+import io.github.nandomango702.stpuzzlerelay.backend.FLOOD
+import io.github.nandomango702.stpuzzlerelay.backend.GUESS
+import io.github.nandomango702.stpuzzlerelay.backend.INERTIA
 import io.github.nandomango702.stpuzzlerelay.backend.LOOPY
 import io.github.nandomango702.stpuzzlerelay.backend.MINES
 import io.github.nandomango702.stpuzzlerelay.backend.NET
 import io.github.nandomango702.stpuzzlerelay.backend.PALISADE
+import io.github.nandomango702.stpuzzlerelay.backend.SAMEGAME
+import io.github.nandomango702.stpuzzlerelay.backend.SOLO
+import io.github.nandomango702.stpuzzlerelay.backend.UNDEAD
+import io.github.nandomango702.stpuzzlerelay.backend.UNEQUAL
+import io.github.nandomango702.stpuzzlerelay.backend.UNTANGLE
 import io.github.nandomango702.stpuzzlerelay.backend.UsedByJNI
 import io.github.nandomango702.stpuzzlerelay.buttons.ArrowMode
 import io.github.nandomango702.stpuzzlerelay.buttons.ButtonsView
@@ -103,6 +111,7 @@ import io.github.nandomango702.stpuzzlerelay.config.PrefsConstants.FULLSCREEN_KE
 import io.github.nandomango702.stpuzzlerelay.config.PrefsConstants.LAST_PARAMS_PREFIX
 import io.github.nandomango702.stpuzzlerelay.config.PrefsConstants.LATIN_M_UNDO_SEEN
 import io.github.nandomango702.stpuzzlerelay.config.PrefsConstants.LATIN_SHOW_M_KEY
+import io.github.nandomango702.stpuzzlerelay.config.PrefsConstants.UNEQUAL_SHOW_H_KEY
 import io.github.nandomango702.stpuzzlerelay.config.PrefsConstants.LIMIT_DPI_KEY
 import io.github.nandomango702.stpuzzlerelay.config.PrefsConstants.LONG_PRESS_TIMEOUT
 import io.github.nandomango702.stpuzzlerelay.config.PrefsConstants.MOUSE_BACK_KEY
@@ -256,6 +265,9 @@ class GamePlay : ActivityWithLoadButton(), OnSharedPreferenceChangeListener, Gam
             MsgType.TIMER -> {
                 if (progress == null) {
                     gameEngine.timerTick()
+                    if (currentBackend === INERTIA) {
+                        gameView.ensureCursorVisible(gameEngine.cursorLocation)
+                    }
                 }
                 if (gameWantsTimer) {
                     handler.sendMessageDelayed(
@@ -728,7 +740,9 @@ class GamePlay : ActivityWithLoadButton(), OnSharedPreferenceChangeListener, Gam
     }
 
     private fun orientGameType(backendName: BackendName?, type: String): String {
-        if (!prefs.getBoolean(AUTO_ORIENT, AUTO_ORIENT_DEFAULT)) {
+        if (!prefs.getBoolean(AUTO_ORIENT, AUTO_ORIENT_DEFAULT)
+            || backendName === SOLO  // Solo is square whatever happens so no point
+        ) {
             return type
         }
         val viewLandscape = gameView.w > gameView.h
@@ -1256,7 +1270,9 @@ class GamePlay : ActivityWithLoadButton(), OnSharedPreferenceChangeListener, Gam
         }
         maybeStartSolveTimer()
         gameEngine.keyEvent(x, y, maybeSwapMouse(k))
-        if (GameView.CURSOR_KEYS.contains(k)) {
+        if (GameView.CURSOR_KEYS.contains(k)
+            || (currentBackend === INERTIA && k == '\n'.code)
+            || (currentBackend === UNTANGLE && k == ' '.code)) {
             gameView.ensureCursorVisible(gameEngine.cursorLocation)
         }
         if (k == 'M'.code && currentBackend!!.isLatin) {
@@ -1296,7 +1312,7 @@ class GamePlay : ActivityWithLoadButton(), OnSharedPreferenceChangeListener, Gam
         val swap = whichBackend?.getSwapLR(this) ?: false
         if (whichBackend?.swapLRNatively != true) swapLROn = swap
         with (buttons) {
-            backend.value = whichBackend ?: LOOPY
+            backend.value = whichBackend ?: UNTANGLE
             keys.value = newKeys
             arrowMode.value = newArrowMode
             swapLR.value = swap
@@ -1307,8 +1323,9 @@ class GamePlay : ActivityWithLoadButton(), OnSharedPreferenceChangeListener, Gam
     }
 
     private fun disableCharacterIcons(whichBackend: BackendName?): String {
-        // Only Undead used this; it is not enabled in this build.
-        return ""
+        if (whichBackend !== UNDEAD) return ""
+        val undeadPrefs = getPrefs(this, whichBackend)
+        return if (undeadPrefs?.split("\n".toRegex())?.contains("monsters=letters") == true) "GVZ" else ""
     }
 
     private fun computeArrowMode(whichBackend: BackendName?): ArrowMode {
@@ -1322,7 +1339,8 @@ class GamePlay : ActivityWithLoadButton(), OnSharedPreferenceChangeListener, Gam
     private fun filterKeys(arrowMode: ArrowMode): String {
         var filtered = lastKeys
         startingBackend?.let {
-            if (it === BRIDGES && !prefs.getBoolean(BRIDGES_SHOW_H_KEY, false)) {
+            if (it === BRIDGES && !prefs.getBoolean(BRIDGES_SHOW_H_KEY, false)
+                    || it === UNEQUAL && !prefs.getBoolean(UNEQUAL_SHOW_H_KEY, false)) {
                 filtered = filtered.replace("H", "")
             }
             if (it.isLatin && !prefs.getBoolean(LATIN_SHOW_M_KEY, true)) {
@@ -1412,8 +1430,7 @@ class GamePlay : ActivityWithLoadButton(), OnSharedPreferenceChangeListener, Gam
 
     @UsedByJNI
     override fun inertiaFollow(isSolved: Boolean) {
-        // Inertia is not enabled in this build, so this never hides the key.
-        buttons.hidePrimary.value = false
+        buttons.hidePrimary.value = !isSolved && currentBackend === INERTIA
     }
 
     /** Re-shows the completion dialog for the solved puzzle; null when there is none to show. */
@@ -1433,7 +1450,7 @@ class GamePlay : ActivityWithLoadButton(), OnSharedPreferenceChangeListener, Gam
             showPlaylistCompleteDialog()
             return
         }
-        val copyStatusBar = currentBackend === MINES
+        val copyStatusBar = currentBackend in setOf(MINES, FLOOD, SAMEGAME)
         val titleText = if (copyStatusBar) statusBar.text else getString(R.string.COMPLETED)
         if (!prefs.getBoolean(COMPLETED_PROMPT_KEY, true)) {
             Toast.makeText(this@GamePlay, titleText, Toast.LENGTH_SHORT).show()
@@ -1445,7 +1462,7 @@ class GamePlay : ActivityWithLoadButton(), OnSharedPreferenceChangeListener, Gam
 
     /** The per-puzzle "COMPLETED!" dialog. Safe to call again to re-show it after dismissal. */
     private fun showCompletedDialog() {
-        val copyStatusBar = currentBackend === MINES
+        val copyStatusBar = currentBackend in setOf(MINES, FLOOD, SAMEGAME)
         val titleText = if (copyStatusBar) statusBar.text else getString(R.string.COMPLETED)
         val d = Dialog(this, R.style.Dialog_Completed)
         val lp = d.window!!.attributes
@@ -1554,7 +1571,10 @@ class GamePlay : ActivityWithLoadButton(), OnSharedPreferenceChangeListener, Gam
         lastArrowMode = result.arrowMode ?: ArrowMode.ARROWS_LEFT_RIGHT_CLICK
         lastKeys = result.keys ?: ""
         lastKeysIfArrows = result.keysIfArrows ?: ""
-        gameView.setHardwareKeys(lastKeys + lastKeysIfArrows)
+        // Guess allows digits, but we don't want them in the virtual keyboard because they're already
+        // on screen as the colours (if labels are enabled).
+        val addDigits = if (startingBackend === GUESS) "1234567890" else ""
+        gameView.setHardwareKeys(lastKeys + lastKeysIfArrows + addDigits)
         setKeyboardVisibility(startingBackend, resources.configuration)
     }
 
@@ -1585,7 +1605,7 @@ class GamePlay : ActivityWithLoadButton(), OnSharedPreferenceChangeListener, Gam
             LIMIT_DPI_KEY -> applyLimitDPI(true)
             ORIENTATION_KEY -> applyOrientation()
             UNDO_REDO_KBD_KEY -> applyUndoRedoKbd()
-            BRIDGES_SHOW_H_KEY, LATIN_SHOW_M_KEY -> applyKeyboardFilters()
+            BRIDGES_SHOW_H_KEY, UNEQUAL_SHOW_H_KEY, LATIN_SHOW_M_KEY -> applyKeyboardFilters()
             LONG_PRESS_TIMEOUT -> applyLongPressTimeout()
             MOUSE_LONG_PRESS_KEY -> applyMouseLongPress()
             MOUSE_BACK_KEY -> applyMouseBackKey()

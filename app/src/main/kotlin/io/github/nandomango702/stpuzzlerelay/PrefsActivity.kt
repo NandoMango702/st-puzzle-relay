@@ -22,6 +22,7 @@ import io.github.nandomango702.stpuzzlerelay.backend.BRIDGES
 import io.github.nandomango702.stpuzzlerelay.backend.BackendName
 import io.github.nandomango702.stpuzzlerelay.backend.BackendName.Companion.byLowerCase
 import io.github.nandomango702.stpuzzlerelay.backend.GameEngineImpl
+import io.github.nandomango702.stpuzzlerelay.backend.UNEQUAL
 import io.github.nandomango702.stpuzzlerelay.config.ConfigBuilder.Event.CFG_PREFS
 import io.github.nandomango702.stpuzzlerelay.config.ConfigPreferencesBuilder
 import io.github.nandomango702.stpuzzlerelay.config.PrefsConstants.BRIDGES_SHOW_H_KEY
@@ -33,6 +34,7 @@ import io.github.nandomango702.stpuzzlerelay.config.PrefsConstants.LATIN_SHOW_M_
 import io.github.nandomango702.stpuzzlerelay.config.PrefsConstants.LONG_PRESS_TIMEOUT
 import io.github.nandomango702.stpuzzlerelay.config.PrefsConstants.MOUSE_BACK_KEY
 import io.github.nandomango702.stpuzzlerelay.config.PrefsConstants.PLACEHOLDER_SEND_FEEDBACK
+import io.github.nandomango702.stpuzzlerelay.config.PrefsConstants.UNEQUAL_SHOW_H_KEY
 
 class PrefsActivity : AppCompatActivity(),
     PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
@@ -145,6 +147,7 @@ class PrefsActivity : AppCompatActivity(),
         ) {
             if (!whichBackend.isLatin)    thisGameCategory -= requirePref(LATIN_SHOW_M_KEY)
             if (whichBackend !== BRIDGES) thisGameCategory -= requirePref(BRIDGES_SHOW_H_KEY)
+            if (whichBackend !== UNEQUAL) thisGameCategory -= requirePref(UNEQUAL_SHOW_H_KEY)
             thisGameCategory += SwitchPreferenceCompat(requireContext()).apply {
                 order = 1000  // after upstream prefs, before XML prefs
                 isIconSpaceReserved = false

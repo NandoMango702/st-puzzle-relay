@@ -17,7 +17,9 @@ import io.github.nandomango702.stpuzzlerelay.launch.GameLaunch.Companion.ofGameI
 import io.github.nandomango702.stpuzzlerelay.launch.GameLaunch.Companion.toGenerate
 import io.github.nandomango702.stpuzzlerelay.launch.GameLaunch.Origin
 import io.github.nandomango702.stpuzzlerelay.R
+import io.github.nandomango702.stpuzzlerelay.backend.BLACKBOX
 import io.github.nandomango702.stpuzzlerelay.backend.BackendName
+import io.github.nandomango702.stpuzzlerelay.backend.SOLO
 import io.github.nandomango702.stpuzzlerelay.backend.UsedByJNI
 import io.github.nandomango702.stpuzzlerelay.config.ConfigBuilder.Event.CFG_DESC
 import io.github.nandomango702.stpuzzlerelay.config.ConfigBuilder.Event.CFG_SEED
@@ -110,7 +112,8 @@ class CustomDialogBuilder private constructor(
                 }
             }
             // Ugly temporary hack: in custom game dialog, all text boxes are numeric, in the other two dialogs they aren't.
-            if (whichEvent == CFG_SETTINGS.jni) {
+            // Uglier temporary-er hack: Black Box must accept a range for ball count.
+            if (whichEvent == CFG_SETTINGS.jni && backend !== BLACKBOX) {
                 editText.inputType =
                     (TYPE_CLASS_NUMBER or TYPE_NUMBER_FLAG_DECIMAL or TYPE_NUMBER_FLAG_SIGNED)
             }
@@ -119,7 +122,37 @@ class CustomDialogBuilder private constructor(
 
     @UsedByJNI
     override fun addBoolean(whichEvent: Int, kw: String, name: String, checked: Boolean) {
-        super.addBooleanView(name, checked)
+        super.addBooleanView(name, checked).apply {
+            if (backend === SOLO && name.startsWith("Jigsaw")) {
+                jigsawHack(this)
+                setOnClickListener { jigsawHack(this) }
+            }
+        }
+    }
+
+    private fun jigsawHack(jigsawCheckbox: CheckBox) {
+        val colTV = table.findViewWithTag<View>(COLS_EDITTEXT_TAG)
+        val rowTV = table.findViewWithTag<View>(ROWS_EDITTEXT_TAG)
+        if (colTV is TextView && rowTV is TextView) {
+            val cols = colTV.intValue ?: 3
+            val rows = rowTV.intValue ?: 3
+            if (jigsawCheckbox.isChecked) {
+                colTV.intValue = cols * rows
+                rowTV.intValue = 1
+                rowTV.isEnabled = false
+                table.findViewWithTag<TextView>(COLS_LABEL_TAG).setText(R.string.Size_of_sub_blocks)
+                table.findViewWithTag<View>(ROWS_ROW_TAG).visibility = View.INVISIBLE
+            } else {
+                if (rows == 1) {
+                    val size = sqrt(cols.toDouble()).toInt().coerceAtLeast(2)
+                    colTV.intValue = size
+                    rowTV.intValue = size
+                }
+                rowTV.isEnabled = true
+                table.findViewWithTag<TextView>(COLS_LABEL_TAG).setText(R.string.Columns_of_sub_blocks)
+                table.findViewWithTag<View>(ROWS_ROW_TAG).visibility = View.VISIBLE
+            }
+        }
     }
 
     @UsedByJNI

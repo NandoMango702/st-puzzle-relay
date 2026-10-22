@@ -83,6 +83,7 @@ struct midend {
     float anim_time, anim_pos;
     float flash_time, flash_pos;
     int dir;
+    bool solve_completed_pending;
 
     bool timing;
     float elapsed;
@@ -222,6 +223,7 @@ midend *midend_new(frontend *fe, const game *ourgame,
     me->preset_menu = NULL;
     me->anim_time = me->anim_pos = 0.0F;
     me->flash_time = me->flash_pos = 0.0F;
+    me->solve_completed_pending = false;
     me->dir = 0;
     me->ui = NULL;
     me->pressed_mouse_button = 0;
@@ -940,6 +942,9 @@ static void midend_finish_move(midend *me)
 
 void midend_stop_anim(midend *me)
 {
+    /* A new action supersedes any in-flight solve animation, so a
+     * deferred solve-completion must not fire afterwards. */
+    me->solve_completed_pending = false;
     if (me->oldstate || me->anim_time != 0) {
 	midend_finish_move(me);
         midend_redraw(me);
@@ -1385,8 +1390,13 @@ void midend_timer(midend *me, float tplus)
     me->anim_pos += tplus;
     if (me->anim_pos >= me->anim_time ||
         me->anim_time == 0 || !me->oldstate) {
-	if (me->anim_time > 0)
+	if (me->anim_time > 0) {
 	    midend_finish_move(me);
+            if (me->solve_completed_pending) {
+                me->solve_completed_pending = false;
+                android_completed(me->frontend);
+            }
+        }
     }
 
     me->flash_pos += tplus;
@@ -2135,8 +2145,17 @@ const char *midend_solve(midend *me)
     me->statepos = ++me->nstates;
     // me->ui is allowed to be null here! (#333)
     me->ourgame->changed_state(me->ui,
-                                   me->states[me->statepos-2].state,
-                                   me->states[me->statepos-1].state);
+                               me->states[me->statepos-2].state,
+                               me->states[me->statepos-1].state);
+    /*
+     * Don't use changed_state()'s return value here: some games (e.g.
+     * Solo) deliberately report "not completed" for a state reached via
+     * Solve, via a "cheated" flag. From the app's point of view the
+     * puzzle IS now solved, so consult status() directly instead.
+     */
+    bool just_completed =
+        me->ourgame->status(me->states[me->statepos-1].state) > 0 &&
+        me->ourgame->status(me->states[me->statepos-2].state) <= 0;
     changed_state(me->drawing, me->statepos > 1, me->statepos < me->nstates);
     me->dir = +1;
     if (me->ourgame->flags & SOLVE_ANIMATES) {
@@ -2146,9 +2165,18 @@ const char *midend_solve(midend *me)
 				     me->states[me->statepos-1].state,
 				     +1, me->ui);
         me->anim_pos = 0.0;
+        /*
+         * The board is already solved, but the animation still has to play.
+         * Remember to report completion when it finishes, so the dialog
+         * doesn't pop up over the animation.
+         */
+        if (just_completed)
+            me->solve_completed_pending = true;
     } else {
 	me->anim_time = 0.0;
 	midend_finish_move(me);
+        if (just_completed)
+            android_completed(me->frontend);
     }
     if (me->drawing)
         midend_redraw(me);

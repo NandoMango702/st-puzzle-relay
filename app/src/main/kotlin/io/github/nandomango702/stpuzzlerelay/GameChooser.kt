@@ -39,7 +39,13 @@ import androidx.preference.PreferenceManager
 import io.github.nandomango702.stpuzzlerelay.Utils.sendFeedbackDialog
 import io.github.nandomango702.stpuzzlerelay.backend.BackendName
 import io.github.nandomango702.stpuzzlerelay.backend.BackendName.Companion.byLowerCase
+import io.github.nandomango702.stpuzzlerelay.backend.GUESS
+import io.github.nandomango702.stpuzzlerelay.backend.KEEN
+import io.github.nandomango702.stpuzzlerelay.backend.LIGHTUP
 import io.github.nandomango702.stpuzzlerelay.backend.NET
+import io.github.nandomango702.stpuzzlerelay.backend.SIGNPOST
+import io.github.nandomango702.stpuzzlerelay.backend.SOLO
+import io.github.nandomango702.stpuzzlerelay.backend.TOWERS
 import io.github.nandomango702.stpuzzlerelay.config.PrefsConstants.CHOOSER_STYLE_KEY
 import io.github.nandomango702.stpuzzlerelay.config.PrefsConstants.SAVED_BACKEND
 import io.github.nandomango702.stpuzzlerelay.config.PrefsConstants.STATE_PREFS_NAME
@@ -458,7 +464,7 @@ class GameChooser : ActivityWithLoadButton(), OnSharedPreferenceChangeListener {
 
     companion object {
 
-        private val DEFAULT_STARRED = setOf(NET)
+        private val DEFAULT_STARRED = setOf(GUESS, KEEN, LIGHTUP, NET, SIGNPOST, SOLO, TOWERS)
 
     }
 }
