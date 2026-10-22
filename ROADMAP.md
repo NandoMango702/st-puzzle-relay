@@ -25,10 +25,18 @@ Where the app is headed. Nothing here is a promise, just the plan.
   apps already do this well, so it's not a priority.
 - **Playlist sharing/export** — sounds cool, not urgent.
 
-## Exploring
-- **TalkBack / accessibility pass** — puzzles are deeply visual, so it's
-  unclear how far this can go, but it's interesting and worth
-  investigating.
+## Exploring → Planned: TalkBack / accessibility
+Phased approach, after the "Up next" items ship:
+- **Phase 1** — "describe board": a text dump of the puzzle state for
+  TalkBack to read. Read-only, works across all puzzles.
+- **Phase 2** — virtual-view grids (`ExploreByTouchHelper`) for the
+  tractable puzzles, starting with Solo: full move entry via TalkBack.
+  (Some puzzles, e.g. Untangle, may never be fully playable
+  non-visually — that's fine.)
+
+**v1.0 milestone:** the "Up next" items plus TalkBack support. Real
+screen-reader support is something most puzzle apps don't have —
+that's when this becomes a 1.0.
 
 ## Not planned
 - Notifications (no daily reminders — the app stays quiet)
