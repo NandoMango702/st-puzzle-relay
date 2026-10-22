@@ -190,3 +190,7 @@ include/
 /unfinished/sokoban
 /unfinished/*.exe
 /*.desktop
+
+# Release signing key — NEVER commit these. Lose them and updates are impossible.
+release.keystore
+keystore.properties

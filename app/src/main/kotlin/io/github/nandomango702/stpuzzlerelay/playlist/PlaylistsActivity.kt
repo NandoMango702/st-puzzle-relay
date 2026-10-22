@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import io.github.nandomango702.stpuzzlerelay.GamePlay
 import io.github.nandomango702.stpuzzlerelay.R
@@ -41,10 +42,15 @@ class PlaylistsActivity : AppCompatActivity() {
             startActivity(Intent(this, PlaylistEditorActivity::class.java))
         }
         // Thumb reachability: the button lives at the bottom, above the nav bar.
+        // The inset goes on the *margin* (lifting the button), not padding:
+        // padding would stretch the button down behind the nav bar.
+        val baseBottomMargin =
+            (binding.newPlaylist.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin
         ViewCompat.setOnApplyWindowInsetsListener(binding.newPlaylist) { v, windowInsets ->
-            v.updatePadding(
-                bottom = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
-            )
+            val inset = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                bottomMargin = baseBottomMargin + inset
+            }
             windowInsets
         }
     }

@@ -1,5 +1,6 @@
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Properties
 import java.util.TimeZone
 
 plugins {
@@ -68,6 +69,31 @@ android {
         buildConfig = true
     }
 
+    lint {
+        // The sandbox has no working proxy for lint's network requests.
+        checkReleaseBuilds = false
+    }
+
+    // Personal release key (CN=NandoMango702). keystore.properties is
+    // gitignored and lives next to this file; without it the release
+    // build type falls back to the debug key.
+    val keystorePropsFile = rootProject.file("keystore.properties")
+    val keystoreProps = Properties()
+    if (keystorePropsFile.exists()) {
+        keystorePropsFile.inputStream().use { keystoreProps.load(it) }
+    }
+
+    signingConfigs {
+        create("release") {
+            storeFile = rootProject.file(keystoreProps.getProperty("storeFile", "release.keystore"))
+            storePassword = keystoreProps.getProperty("storePassword")
+            keyAlias = keystoreProps.getProperty("keyAlias")
+            keyPassword = keystoreProps.getProperty("keyPassword")
+            enableV1Signing = true
+            enableV2Signing = true
+        }
+    }
+
     buildTypes {
         debug {
             versionNameSuffix = "-DEBUG-${idForSimon()}"
@@ -77,6 +103,9 @@ android {
             }
         }
         release {
+            if (keystorePropsFile.exists()) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             versionNameSuffix = "-${timestamp(true)}-${idForSimon()}"
             isMinifyEnabled = true
             ndk {
