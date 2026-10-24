@@ -170,6 +170,12 @@ class GameChooser : ActivityWithLoadButton(), OnSharedPreferenceChangeListener {
                     append(getString(backend.description))
                 }
                 text.visibility = if (useGrid) GONE else VISIBLE
+                // Star toggle button: list mode only. Tapping it stars/unstars
+                // exactly like long-pressing the row; the button shows an
+                // outline when unstarred and the filled star when starred.
+                starToggle.tag = backend
+                starToggle.visibility = if (useGrid) GONE else VISIBLE
+                starToggle.setOnClickListener { toggleStarred(backend) }
                 with (root) {
                     ignoreTouchAfterResume()
                     setOnClickListener {
@@ -260,6 +266,14 @@ class GameChooser : ActivityWithLoadButton(), OnSharedPreferenceChangeListener {
         var row = startRow
         itemBindings.forEach {
             it.star.visibility = if (starred) VISIBLE else GONE
+            // Star toggle button state follows the same starred state; the
+            // group this row was placed in tells us what that state is.
+            val backend = it.starToggle.tag as BackendName
+            it.starToggle.setImageResource(
+                if (starred) R.drawable.ic_star else R.drawable.ic_star_outline)
+            it.starToggle.contentDescription = getString(
+                if (starred) R.string.unstar_game else R.string.star_game,
+                backend.displayName)
             if (col >= columns) {
                 col = 0
                 row++
@@ -458,7 +472,10 @@ class GameChooser : ActivityWithLoadButton(), OnSharedPreferenceChangeListener {
         if (useGrid == newGrid) return
         useGrid = newGrid
         updateDailyTitle()
-        itemBindings.values.forEach { it.text.visibility = if (useGrid) GONE else VISIBLE }
+        itemBindings.values.forEach {
+            it.text.visibility = if (useGrid) GONE else VISIBLE
+            it.starToggle.visibility = if (useGrid) GONE else VISIBLE
+        }
         rethinkColumns(true)
     }
 

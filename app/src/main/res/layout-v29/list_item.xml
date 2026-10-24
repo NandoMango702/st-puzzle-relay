@@ -50,5 +50,17 @@
 		android:paddingLeft="8dip"
 		android:paddingRight="8dip"
 		tools:text="Net: Rotate tiles to connect all tiles (not just endpoints) to the centre tile." />
+
+	<!-- Star toggle button: only shown in list mode (Show descriptions).
+	     Outline when unstarred, filled @drawable/ic_star when starred.
+	     Long-press on the row still toggles too. -->
+	<ImageButton
+		android:id="@+id/starToggle"
+		android:layout_width="48dip"
+		android:layout_height="48dip"
+		android:layout_gravity="center_vertical"
+		android:background="?attr/selectableItemBackgroundBorderless"
+		android:contentDescription="@string/star_game"
+		android:src="@drawable/ic_star_outline" />
 </LinearLayout>
 </FrameLayout>

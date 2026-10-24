@@ -73,6 +73,8 @@ Version %s"</string>
     <string name="games_starred">Starred (long press to toggle)</string>
     <string name="games_others">Others</string>
     <string name="games_others_none_starred">Long press to star a game</string>
+    <string name="star_game">Star %1$s</string>
+    <string name="unstar_game">Unstar %1$s</string>
     <!-- Help activity -->
     <string name="title_activity_help">Help</string>
     <string name="activity_not_found">No suitable application is available to handle this link</string>

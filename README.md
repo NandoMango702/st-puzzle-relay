@@ -46,6 +46,8 @@ the things it chose not to:
 - Random picker — all puzzles or just your starred favorites
 - "Show solution" completes the puzzle properly: solved menu, timer
   stop, playlist advance
+- Star toggle button on the "Show descriptions" game chooser (new on
+  main, coming in the next release)
 
 See [ROADMAP.md](ROADMAP.md) for what's next.
 
