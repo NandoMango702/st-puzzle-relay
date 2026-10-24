@@ -37,7 +37,7 @@ the things it chose not to:
 * A random picker that draws from all puzzles or just your favorites
   (long-press a puzzle on the main screen to star it).
 
-## Current release — v0.2.0
+## Current release — v0.3.0
 
 - All 40 upstream puzzles, with their original settings
 - Solve timer — starts on your first move, pauses when you leave
@@ -46,8 +46,8 @@ the things it chose not to:
 - Random picker — all puzzles or just your starred favorites
 - "Show solution" completes the puzzle properly: solved menu, timer
   stop, playlist advance
-- Star toggle button on the "Show descriptions" game chooser (new on
-  main, coming in the next release)
+- Star toggle button on the "Show descriptions" game chooser — tap the
+  star to star or unstar a puzzle (long-press still works too)
 
 See [ROADMAP.md](ROADMAP.md) for what's next.
 

@@ -49,7 +49,7 @@ android {
         applicationId = "io.github.nandomango702.stpuzzlerelay"
         minSdk = 21
         targetSdk = 36
-        versionCode = 149
+        versionCode = 150
         versionName = timestamp(false)
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
